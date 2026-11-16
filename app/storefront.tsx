@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, BadgeCheck, Check, ChevronDown, ChevronRight, Headphones, Heart, Menu, PackageCheck, Search, ShieldCheck, ShoppingBag, SlidersHorizontal, Sparkles, Star, Truck, X, Zap } from 'lucide-react'
+import MeeshoHeader from '@/components/meesho-header'
 
 type Product = { id: number; brand: string; name: string; category: string; price: number; oldPrice: number; rating: number; reviews: number; image: string; tag?: string }
 const categories = [
@@ -93,8 +94,32 @@ export default function Storefront({ cart, setCart, wishlist, setWishlist }: Pro
   const subtotal = Object.entries(cart).reduce((sum,[id,count])=>sum+(products.find(p=>p.id===Number(id))?.price||0)*count,0)
   const openProduct = (id:number) => { setDetailId(id); setPage(`product-${id}`); window.scrollTo({top:0,behavior:'smooth'}) }
   const listProducts = page==='shop'||page==='deals'||page==='wishlist'||page==='brands'||page==='categories'
-  return <div className="app-shell" onKeyDown={e => { if(e.key==='Escape'){setCartOpen(false);setDetailId(null);setMenuOpen(false)} if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();document.querySelector<HTMLInputElement>('.search-box input')?.focus()} }}>
-    <Header cartCount={cartCount} page={page} navigate={navigate} query={query} setQuery={setQuery} setCartOpen={setCartOpen} setMenuOpen={setMenuOpen} menuOpen={menuOpen}/>
+  return <div className="app-shell" onKeyDown={e => { if(e.key==='Escape'){setCartOpen(false);setDetailId(null);setMenuOpen(false)} if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();document.querySelector<HTMLInputElement>('input[placeholder*="Search"]')?.focus()} }}>
+    <MeeshoHeader
+      cartCount={cartCount}
+      onSearch={(q) => {
+        setQuery(q)
+        navigate('shop')
+      }}
+      onSelectCategory={(cat, subCat, item) => {
+        if (cat === 'home') {
+          navigate('home')
+          return
+        }
+        if (item) {
+          setQuery(item)
+          navigate('shop')
+        } else if (subCat) {
+          setQuery(subCat)
+          navigate('shop')
+        } else {
+          setFilter(cat)
+          navigate('shop')
+        }
+      }}
+      onOpenCart={() => setCartOpen(true)}
+      onOpenProfile={() => notify('Raja Rani Account: Log in / Sign up coming soon')}
+    />
     {page==='home' && <>
       <main><section className="hero"><Image src="/appliq-hero.png" alt="A considered kitchen, made for everyday living" fill priority sizes="100vw"/><div className="hero-shade"/><div className="hero-content"><div className="hero-kicker"><span/>THE ART OF EVERYDAY</div><h1>Upgrade your<br/>everyday <em>living.</em></h1><p>Thoughtfully selected appliances designed to make every day feel effortless.</p><div className="hero-actions"><button className="button-dark" onClick={()=>navigate('shop')}>Explore collection <ArrowRight size={16}/></button><button className="button-quiet" onClick={()=>{setFilter('All');navigate('shop')}}>Discover bestsellers <span>↗</span></button></div><div className="hero-index"><span>01</span><i/><span>03</span><span className="index-caption">A MORE CONSIDERED HOME</span></div></div><div className="hero-side-note">DESIGNED FOR THE WAY YOU LIVE&nbsp; · &nbsp;EST. 2025</div></section>
       <section className="trust-strip"><span><Truck/> Considered delivery, on us</span><i/><span><PackageCheck/> Easy 7-day returns</span><i/><span><ShieldCheck/> Genuine, guaranteed</span><i/><span><Headphones/> Real people, here to help</span></section>
