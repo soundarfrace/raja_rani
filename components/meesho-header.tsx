@@ -1,7 +1,8 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import { Search, ShoppingCart, User, X, Home } from 'lucide-react'
+import { Search, ShoppingCart, User, X, Home, Shield } from 'lucide-react'
+import Link from 'next/link'
 import { NAV_CATEGORIES, NavCategory } from '@/lib/meesho-navigation'
 
 interface MeeshoHeaderProps {
@@ -129,7 +130,7 @@ export default function MeeshoHeader({
         </form>
 
         {/* Right Actions: Home, Profile & Cart */}
-        <div className="flex items-center gap-5 md:gap-7 text-[12px] md:text-[13px] font-medium text-gray-700">
+        <div className="flex items-center gap-5 md:gap-7 text-[13px] md:text-[14px] font-medium text-gray-700">
           {/* Home */}
           <button
             type="button"
@@ -137,8 +138,19 @@ export default function MeeshoHeader({
             className="flex flex-col items-center justify-center hover:text-[#9f2066] transition-colors group cursor-pointer"
           >
             <Home className="w-[19px] h-[19px] md:w-[21px] md:h-[21px] text-gray-700 group-hover:text-[#9f2066] stroke-[1.8]" />
-            <span className="text-[11px] md:text-[12px] mt-0.5 font-normal">Home</span>
+            <span className="text-[12px] md:text-[13px] mt-0.5 font-medium">Home</span>
           </button>
+
+          <div className="w-[1px] h-6 bg-gray-200" />
+
+          {/* Admin */}
+          <Link
+            href="/admin"
+            className="flex flex-col items-center justify-center hover:text-[#9f2066] transition-colors group cursor-pointer"
+          >
+            <Shield className="w-[19px] h-[19px] md:w-[21px] md:h-[21px] text-gray-700 group-hover:text-[#9f2066] stroke-[1.8]" />
+            <span className="text-[12px] md:text-[13px] mt-0.5 font-medium">Admin</span>
+          </Link>
 
           <div className="w-[1px] h-6 bg-gray-200" />
 
@@ -149,7 +161,7 @@ export default function MeeshoHeader({
             className="flex flex-col items-center justify-center hover:text-[#9f2066] transition-colors group cursor-pointer"
           >
             <User className="w-[19px] h-[19px] md:w-[21px] md:h-[21px] text-gray-700 group-hover:text-[#9f2066] stroke-[1.8]" />
-            <span className="text-[11px] md:text-[12px] mt-0.5 font-normal">Profile</span>
+            <span className="text-[12px] md:text-[13px] mt-0.5 font-medium">Profile</span>
           </button>
 
           <div className="w-[1px] h-6 bg-gray-200" />
@@ -163,27 +175,36 @@ export default function MeeshoHeader({
             <div className="relative">
               <ShoppingCart className="w-[19px] h-[19px] md:w-[21px] md:h-[21px] text-gray-700 group-hover:text-[#9f2066] stroke-[1.8]" />
               {cartCount > 0 && (
-                <span className="absolute -top-1.5 -right-2 bg-gradient-to-r from-[#9f2066] to-[#d4378b] text-white text-[10px] font-bold rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center leading-none shadow-sm">
+                <span className="absolute -top-1.5 -right-2 bg-gradient-to-r from-[#9f2066] to-[#d4378b] text-white text-[11px] font-bold rounded-full h-4 min-w-[16px] px-1 flex items-center justify-center leading-none shadow-sm">
                   {cartCount}
                 </span>
               )}
             </div>
-            <span className="text-[11px] md:text-[12px] mt-0.5 font-normal">Cart</span>
+            <span className="text-[12px] md:text-[13px] mt-0.5 font-medium">Cart</span>
           </button>
         </div>
       </div>
 
       {/* Mobile Search input when screen is small */}
-      <div className="sm:hidden px-4 pb-2.5">
-        <form onSubmit={handleSearchSubmit} className="w-full flex items-center bg-[#f8f8f8] border border-gray-300 rounded px-3 py-1.5">
-          <Search className="w-4 h-4 text-gray-500 mr-2" />
+      <div className="sm:hidden px-3.5 pb-2.5">
+        <form onSubmit={handleSearchSubmit} className="w-full flex items-center bg-[#f8f8f8] border border-gray-300 rounded-lg px-3 py-2 shadow-xs focus-within:border-[#9f2066] focus-within:bg-white transition-all">
+          <Search className="w-4 h-4 text-gray-500 mr-2 flex-shrink-0" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search on Meesho..."
+            placeholder="Search appliances, brands, TVs, ACs..."
             className="w-full bg-transparent text-[13px] text-gray-800 placeholder-gray-400 focus:outline-none"
           />
+          {searchTerm && (
+            <button
+              type="button"
+              onClick={() => setSearchTerm('')}
+              className="text-gray-400 hover:text-gray-600 ml-1 p-0.5"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          )}
         </form>
       </div>
 
@@ -193,7 +214,7 @@ export default function MeeshoHeader({
         onMouseLeave={handleMouseLeave}
       >
         <div className="max-w-[1440px] mx-auto px-4 lg:px-6">
-          <ul className="flex items-center justify-between overflow-x-auto scrollbar-none whitespace-nowrap text-[13px] font-normal text-[#333333]">
+          <ul className="flex items-center justify-between overflow-x-auto scrollbar-none whitespace-nowrap text-[13.5px] font-normal text-[#333333]">
             {NAV_CATEGORIES.map((category) => {
               const isHovered = activeCategory?.id === category.id
               return (
@@ -207,7 +228,7 @@ export default function MeeshoHeader({
                     onClick={() => {
                       if (onSelectCategory) onSelectCategory(category.name)
                     }}
-                    className={`px-2 lg:px-2.5 py-1 text-[12px] lg:text-[13px] font-medium transition-colors cursor-pointer block border-b-2 ${
+                    className={`px-2.5 lg:px-3 py-1 text-[13px] lg:text-[14px] font-medium transition-colors cursor-pointer block border-b-2 ${
                       isHovered
                         ? 'text-[#9f2066] border-[#9f2066]'
                         : 'text-[#333] border-transparent hover:text-[#9f2066]'
@@ -236,8 +257,8 @@ export default function MeeshoHeader({
             <div className="max-w-[1400px] mx-auto px-8 py-7">
               <div className="grid grid-flow-col auto-cols-max gap-x-12 gap-y-6 max-h-[460px] overflow-x-auto">
                 {activeCategory.columns.map((col, idx) => (
-                  <div key={idx} className="w-[180px] lg:w-[200px] flex flex-col gap-2">
-                    <h3 className="text-[13px] font-semibold text-[#9f2066] tracking-tight pb-1 border-b border-[#f3e3ed]">
+                  <div key={idx} className="w-[190px] lg:w-[210px] flex flex-col gap-2">
+                    <h3 className="text-[14px] font-bold text-[#9f2066] tracking-tight pb-1 border-b border-[#f3e3ed]">
                       {col.title}
                     </h3>
                     <ul className="flex flex-col gap-1.5 pt-1">
@@ -246,7 +267,7 @@ export default function MeeshoHeader({
                           <button
                             type="button"
                             onClick={() => handleItemClick(activeCategory.name, col.title, item)}
-                            className="text-[12px] text-[#666666] hover:text-[#111111] hover:font-medium text-left transition-colors cursor-pointer leading-relaxed block w-full truncate py-0.5"
+                            className="text-[13px] text-[#555555] hover:text-[#111111] hover:font-medium text-left transition-colors cursor-pointer leading-relaxed block w-full truncate py-0.5"
                           >
                             {item}
                           </button>

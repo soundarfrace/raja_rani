@@ -3,8 +3,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'APPLIQ — Better Living Starts Here',
-  description: 'Thoughtfully selected home appliances designed to make every day effortless. Discover the APPLIQ edit.',
+  title: 'RajaRani — Better Living Starts Here',
+  description: 'Thoughtfully selected home appliances designed to make every day effortless. Discover the RajaRani edit.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -26,8 +26,12 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
   colorScheme: 'light',
-  themeColor: '#fafaf8',
+  themeColor: '#881353',
 }
 
 export default function RootLayout({

@@ -1,0 +1,26 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 380' width='100%' height='100%'>
+    <defs>
+      <linearGradient id='bgGrad-washer-haier.svg' x1='0' y1='0' x2='1' y2='1'>
+        <stop offset='0%' stop-color='#0f172a'/>
+        <stop offset='100%' stop-color='#1e293b'/>
+      </linearGradient>
+    </defs>
+    <rect width='400' height='380' fill='url(#bgGrad-washer-haier.svg)'/>
+    <circle cx='200' cy='175' r='125' fill='#0284c7' opacity='0.08'/>
+    
+    <!-- Appliance Vector -->
+    
+      <rect x='120' y='65' width='160' height='240' rx='14' fill='#1e293b' stroke='#0284c7' stroke-width='4'/>
+      <rect x='135' y='80' width='130' height='30' rx='4' fill='#0f172a'/>
+      <rect x='195' y='87' width='55' height='16' rx='3' fill='#0284c7'/>
+      <circle cx='155' cy='95' r='7' fill='#38bdf8'/>
+      <circle cx='200' cy='205' r='58' fill='#0f172a' stroke='#0284c7' stroke-width='4'/>
+      <circle cx='200' cy='205' r='40' fill='#1e293b' stroke='#38bdf8' stroke-width='2'/>
+      <path d='M180,205 Q200,180 220,205 Q200,230 180,205' fill='#38bdf8' opacity='0.7'/>
+    
+    
+    <!-- Info Badge -->
+    <rect x='20' y='325' width='360' height='42' rx='8' fill='#020617' opacity='0.9' stroke='#334155' stroke-width='1'/>
+    <text x='35' y='345' fill='#f8fafc' font-family='system-ui, sans-serif' font-size='13' font-weight='bold'>Haier Inverter</text>
+    <text x='35' y='360' fill='#0284c7' font-family='system-ui, sans-serif' font-size='11' font-weight='500'>Front Load Washer 8kg</text>
+  </svg>

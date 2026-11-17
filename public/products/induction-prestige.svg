@@ -1,0 +1,26 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 380' width='100%' height='100%'>
+    <defs>
+      <linearGradient id='bgGrad-induction-prestige.svg' x1='0' y1='0' x2='1' y2='1'>
+        <stop offset='0%' stop-color='#0f172a'/>
+        <stop offset='100%' stop-color='#1e293b'/>
+      </linearGradient>
+    </defs>
+    <rect width='400' height='380' fill='url(#bgGrad-induction-prestige.svg)'/>
+    <circle cx='200' cy='175' r='125' fill='#f97316' opacity='0.08'/>
+    
+    <!-- Appliance Vector -->
+    
+      <rect x='100' y='115' width='200' height='150' rx='16' fill='#1e293b' stroke='#f97316' stroke-width='4'/>
+      <circle cx='180' cy='190' r='48' fill='#0f172a' stroke='#ea580c' stroke-width='4'/>
+      <circle cx='180' cy='190' r='25' fill='none' stroke='#f97316' stroke-width='2' stroke-dasharray='6 4'/>
+      <rect x='245' y='140' width='45' height='100' rx='6' fill='#0f172a'/>
+      <rect x='252' y='150' width='30' height='16' rx='2' fill='#fdba74'/>
+      <circle cx='267' cy='185' r='6' fill='#ea580c'/>
+      <circle cx='267' cy='210' r='6' fill='#ea580c'/>
+    
+    
+    <!-- Info Badge -->
+    <rect x='20' y='325' width='360' height='42' rx='8' fill='#020617' opacity='0.9' stroke='#334155' stroke-width='1'/>
+    <text x='35' y='345' fill='#f8fafc' font-family='system-ui, sans-serif' font-size='13' font-weight='bold'>Prestige Induction Cooktop</text>
+    <text x='35' y='360' fill='#f97316' font-family='system-ui, sans-serif' font-size='11' font-weight='500'>Smart Induction Cooker 2000W</text>
+  </svg>

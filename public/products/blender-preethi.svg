@@ -1,0 +1,25 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 380' width='100%' height='100%'>
+    <defs>
+      <linearGradient id='bgGrad-blender-preethi.svg' x1='0' y1='0' x2='1' y2='1'>
+        <stop offset='0%' stop-color='#0f172a'/>
+        <stop offset='100%' stop-color='#1e293b'/>
+      </linearGradient>
+    </defs>
+    <rect width='400' height='380' fill='url(#bgGrad-blender-preethi.svg)'/>
+    <circle cx='200' cy='175' r='125' fill='#ef4444' opacity='0.08'/>
+    
+    <!-- Appliance Vector -->
+    
+      <polygon points='160,75 240,75 225,175 175,175' fill='#1e293b' stroke='#ef4444' stroke-width='3'/>
+      <rect x='150' y='65' width='100' height='14' rx='4' fill='#dc2626'/>
+      <rect x='165' y='175' width='70' height='30' fill='#475569'/>
+      <rect x='145' y='205' width='110' height='80' rx='16' fill='#1e293b' stroke='#ef4444' stroke-width='4'/>
+      <circle cx='200' cy='245' r='16' fill='#ef4444'/>
+      <line x1='200' y1='235' x2='200' y2='250' stroke='#fff' stroke-width='3'/>
+    
+    
+    <!-- Info Badge -->
+    <rect x='20' y='325' width='360' height='42' rx='8' fill='#020617' opacity='0.9' stroke='#334155' stroke-width='1'/>
+    <text x='35' y='345' fill='#f8fafc' font-family='system-ui, sans-serif' font-size='13' font-weight='bold'>Preethi Power Mixer</text>
+    <text x='35' y='360' fill='#ef4444' font-family='system-ui, sans-serif' font-size='11' font-weight='500'>750W Mixer Grinder & Blender</text>
+  </svg>

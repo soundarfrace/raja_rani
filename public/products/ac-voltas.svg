@@ -1,0 +1,26 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 380' width='100%' height='100%'>
+    <defs>
+      <linearGradient id='bgGrad-ac-voltas.svg' x1='0' y1='0' x2='1' y2='1'>
+        <stop offset='0%' stop-color='#0f172a'/>
+        <stop offset='100%' stop-color='#1e293b'/>
+      </linearGradient>
+    </defs>
+    <rect width='400' height='380' fill='url(#bgGrad-ac-voltas.svg)'/>
+    <circle cx='200' cy='175' r='125' fill='#06b6d4' opacity='0.08'/>
+    
+    <!-- Appliance Vector -->
+    
+      <rect x='80' y='110' width='240' height='90' rx='12' fill='#1e293b' stroke='#06b6d4' stroke-width='4'/>
+      <line x1='90' y1='165' x2='310' y2='165' stroke='#06b6d4' stroke-width='3'/>
+      <circle cx='285' cy='135' r='8' fill='#22d3ee'/>
+      <rect x='110' y='175' width='180' height='12' rx='3' fill='#0f172a'/>
+      <path d='M130,215 C140,235 160,245 170,260' stroke='#38bdf8' stroke-width='3' stroke-dasharray='4 4' fill='none'/>
+      <path d='M200,215 C200,235 200,245 200,260' stroke='#38bdf8' stroke-width='3' stroke-dasharray='4 4' fill='none'/>
+      <path d='M270,215 C260,235 240,245 230,260' stroke='#38bdf8' stroke-width='3' stroke-dasharray='4 4' fill='none'/>
+    
+    
+    <!-- Info Badge -->
+    <rect x='20' y='325' width='360' height='42' rx='8' fill='#020617' opacity='0.9' stroke='#334155' stroke-width='1'/>
+    <text x='35' y='345' fill='#f8fafc' font-family='system-ui, sans-serif' font-size='13' font-weight='bold'>Voltas Inverter Split AC</text>
+    <text x='35' y='360' fill='#06b6d4' font-family='system-ui, sans-serif' font-size='11' font-weight='500'>Smart Cooling Air Conditioner</text>
+  </svg>

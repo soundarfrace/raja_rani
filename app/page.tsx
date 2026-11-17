@@ -9,12 +9,12 @@ export default function Page() {
   const [storageReady, setStorageReady] = useState(false)
   useEffect(() => {
     try {
-      setCart(JSON.parse(localStorage.getItem('appliq-cart') || '{}'))
-      setWishlist(JSON.parse(localStorage.getItem('appliq-wishlist') || '[]'))
+      setCart(JSON.parse(localStorage.getItem('rajarani-cart') || '{}'))
+      setWishlist(JSON.parse(localStorage.getItem('rajarani-wishlist') || '[]'))
     } catch { /* Ignore invalid saved browser state. */ }
     setStorageReady(true)
   }, [])
-  useEffect(() => { if (storageReady) localStorage.setItem('appliq-cart', JSON.stringify(cart)) }, [cart, storageReady])
-  useEffect(() => { if (storageReady) localStorage.setItem('appliq-wishlist', JSON.stringify(wishlist)) }, [wishlist, storageReady])
+  useEffect(() => { if (storageReady) localStorage.setItem('rajarani-cart', JSON.stringify(cart)) }, [cart, storageReady])
+  useEffect(() => { if (storageReady) localStorage.setItem('rajarani-wishlist', JSON.stringify(wishlist)) }, [wishlist, storageReady])
   return <Storefront cart={cart} setCart={setCart} wishlist={wishlist} setWishlist={setWishlist}/>
 }
