@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import { Search, ShoppingCart, User, X, Crown, Sparkles } from 'lucide-react'
+import { Search, ShoppingCart, User, X, Home } from 'lucide-react'
 import { NAV_CATEGORIES, NavCategory } from '@/lib/meesho-navigation'
 
 interface MeeshoHeaderProps {
@@ -22,7 +22,7 @@ export default function MeeshoHeader({
   const [searchTerm, setSearchTerm] = useState('')
   const [activeCategory, setActiveCategory] = useState<NavCategory | null>(null)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [mobileActiveCategory, setMobileActiveCategory] = useState<NavCategory | null>(NAV_CATEGORIES[9]) // default bags & footwear
+  const [mobileActiveCategory, setMobileActiveCategory] = useState<NavCategory | null>(NAV_CATEGORIES[0]) // default first electronic category
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   const handleMouseEnter = (cat: NavCategory) => {
@@ -90,27 +90,13 @@ export default function MeeshoHeader({
               if (onSelectCategory) onSelectCategory('home')
             }}
           >
-            {/* Elegant Crown / Royal Emblem Badge */}
-            <div className="relative w-8 h-8 rounded-lg bg-gradient-to-tr from-[#861453] via-[#a8226d] to-[#d4378b] flex items-center justify-center shadow-md shadow-pink-900/20 group-hover:scale-105 transition-transform duration-200">
-              <Crown className="w-4 h-4 text-amber-300 stroke-[2.2] drop-shadow-sm" />
-              <Sparkles className="w-2.5 h-2.5 text-yellow-100 absolute -top-0.5 -right-0.5 animate-pulse" />
-            </div>
-
             {/* Typography */}
-            <div className="flex flex-col leading-none">
-              <div className="flex items-center gap-1">
-                <span className="text-[22px] md:text-[26px] font-black tracking-tight text-[#881353] group-hover:text-[#a8226d] transition-colors" style={{ fontFamily: 'var(--font-serif, "Cinzel", "Playfair Display", Georgia, serif)', letterSpacing: '0.04em' }}>
-                  RAJA
-                </span>
-                <span className="text-[17px] md:text-[20px] font-light text-amber-500 font-serif italic mx-0.5">
-                  &amp;
-                </span>
-                <span className="text-[22px] md:text-[26px] font-black tracking-tight text-[#c2185b] group-hover:text-[#e91e63] transition-colors" style={{ fontFamily: 'var(--font-serif, "Cinzel", "Playfair Display", Georgia, serif)', letterSpacing: '0.04em' }}>
-                  RANI
-                </span>
-              </div>
-              <span className="text-[8.5px] uppercase tracking-[0.24em] font-semibold text-gray-400 group-hover:text-gray-600 transition-colors">
-                Royal Trends · Everyday Prices
+            <div className="flex items-center">
+              <span className="text-[22px] md:text-[26px] font-black tracking-tight text-[#881353] group-hover:text-[#a8226d] transition-colors" style={{ fontFamily: 'var(--font-serif, "Cinzel", "Playfair Display", Georgia, serif)', letterSpacing: '0.04em' }}>
+                Raja
+              </span>
+              <span className="text-[22px] md:text-[26px] font-black tracking-tight text-[#c2185b] group-hover:text-[#e91e63] transition-colors" style={{ fontFamily: 'var(--font-serif, "Cinzel", "Playfair Display", Georgia, serif)', letterSpacing: '0.04em' }}>
+                Rani
               </span>
             </div>
           </a>
@@ -127,7 +113,7 @@ export default function MeeshoHeader({
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Try Saree, Kurti or Search by Product Code"
+              placeholder="Try Smart TV, Split AC, Refrigerator or Model Code"
               className="w-full bg-transparent text-[13px] md:text-[14px] text-gray-800 placeholder-[#9b9b9b] focus:outline-none"
             />
             {searchTerm && (
@@ -142,8 +128,20 @@ export default function MeeshoHeader({
           </div>
         </form>
 
-        {/* Right Actions: Clean Profile & Cart only */}
+        {/* Right Actions: Home, Profile & Cart */}
         <div className="flex items-center gap-5 md:gap-7 text-[12px] md:text-[13px] font-medium text-gray-700">
+          {/* Home */}
+          <button
+            type="button"
+            onClick={() => onSelectCategory?.('home')}
+            className="flex flex-col items-center justify-center hover:text-[#9f2066] transition-colors group cursor-pointer"
+          >
+            <Home className="w-[19px] h-[19px] md:w-[21px] md:h-[21px] text-gray-700 group-hover:text-[#9f2066] stroke-[1.8]" />
+            <span className="text-[11px] md:text-[12px] mt-0.5 font-normal">Home</span>
+          </button>
+
+          <div className="w-[1px] h-6 bg-gray-200" />
+
           {/* Profile */}
           <button
             type="button"

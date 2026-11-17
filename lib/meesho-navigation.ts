@@ -11,320 +11,228 @@ export interface NavCategory {
 
 export const NAV_CATEGORIES: NavCategory[] = [
   {
-    id: 'popular',
-    name: 'Popular',
+    id: 'all-electronics',
+    name: 'All Electronics',
     columns: [
       {
-        title: 'Trending',
-        items: ['All Popular', 'Top Deals', 'Daily Specials', 'New In', 'Best Sellers']
+        title: 'Top Categories',
+        items: ['View All', 'Televisions & Home Audio', 'Refrigerators', 'Washing Machines', 'Air Conditioners', 'Kitchen Appliances']
+      },
+      {
+        title: 'Trending Electronics',
+        items: ['Smart TVs', 'Inverter Split ACs', 'Direct Drive Washers', 'Frost Free Refrigerators', 'Cordless Vacuums']
+      },
+      {
+        title: 'Top Brands',
+        items: ['Samsung', 'LG', 'Sony', 'Bosch', 'Philips', 'Dyson', 'Voltas', 'Whirlpool']
       },
       {
         title: 'Budget Buys',
-        items: ['Under ₹199', 'Under ₹299', 'Under ₹499', 'Under ₹999']
+        items: ['Under ₹15,000', 'Under ₹30,000', 'Under ₹50,000', 'Premium Over ₹50,000']
       }
     ]
   },
   {
-    id: 'kurti-saree-lehenga',
-    name: 'Kurti, Saree & Lehenga',
+    id: 'televisions',
+    name: 'Televisions',
     columns: [
       {
-        title: 'All Sarees',
-        items: ['View All', 'Silk Sarees', 'Cotton Sarees', 'Georgette Sarees', 'Chiffon Sarees', 'Satin Sarees', 'Embroidered Sarees']
+        title: 'By Screen Size',
+        items: ['View All', '32 Inch Smart TVs', '43 Inch 4K UHD', '50 & 55 Inch TVs', '65 Inch & Above Large Screens']
       },
       {
-        title: 'Kurtis & Kurta Sets',
-        items: ['View All', 'Anarkali Kurtis', 'Straight Kurtis', 'A-Line Kurtis', 'Kurta Sets with Dupatta', 'Palazzo Sets']
+        title: 'Display Technology',
+        items: ['4K Ultra HD', 'OLED TVs', 'QLED & Neo QLED', 'LED Smart TVs', '4K Smart Projectors']
       },
       {
-        title: 'Suits & Dress Material',
-        items: ['View All', 'Cotton Suits', 'Silk Suits', 'Chanderi Suits', 'Unstitched Fabric']
+        title: 'TV Audio & Home Cinema',
+        items: ['Soundbars', 'Home Theater Systems', 'Bluetooth Speakers', 'Theatre Bar Systems']
       },
       {
-        title: 'Lehengas',
-        items: ['View All', 'Bridal Lehengas', 'Semi-Stitched Lehengas', 'Floral Lehengas', 'Party Wear Lehengas']
-      },
-      {
-        title: 'Ethnic Bottomwear',
-        items: ['Leggings', 'Palazzos', 'Shararas', 'Salwars', 'Petticoats']
+        title: 'Top TV Brands',
+        items: ['Sony BRAVIA', 'Samsung Neo QLED', 'LG OLED', 'Panasonic', 'Mi Smart TVs']
       }
     ]
   },
   {
-    id: 'women-western',
-    name: 'Women Western',
+    id: 'refrigerators',
+    name: 'Refrigerators',
     columns: [
       {
-        title: 'Topwear',
-        items: ['View All', 'Tops & Tunics', 'T-Shirts & Polos', 'Shirts', 'Dresses', 'Jumpsuits']
+        title: 'By Door Type',
+        items: ['View All', 'Single Door Direct Cool', 'Double Door Frost Free', 'Side by Side Refrigerators', 'Multi-Door & French Door']
       },
       {
-        title: 'Bottomwear',
-        items: ['View All', 'Jeans & Jeggings', 'Trousers & Pants', 'Skirts', 'Shorts', 'Track Pants']
+        title: 'Capacity & Features',
+        items: ['Under 200 Litres', '200 to 350 Litres', '350 Litres & Above', 'Bespoke AI Inverter', 'Convertible Modes']
       },
       {
-        title: 'Winterwear',
-        items: ['View All', 'Jackets & Coats', 'Sweaters & Cardigans', 'Sweatshirts & Hoodies', 'Shrugs']
+        title: 'Energy Star Rating',
+        items: ['5 Star Energy Saver', '4 Star Inverter', '3 Star Inverter']
       },
       {
-        title: 'Innerwear & Loungewear',
-        items: ['Nightsuits', 'Sleepwear & Robes', 'Thermal Wear', 'Camisoles']
+        title: 'Top Brands',
+        items: ['Samsung Bespoke', 'LG Smart Inverter', 'Whirlpool IntelliFresh', 'Haier Frost Free', 'Bosch']
       }
     ]
   },
   {
-    id: 'lingerie',
-    name: 'Lingerie',
+    id: 'laundry',
+    name: 'Washing Machines',
     columns: [
       {
-        title: 'Bras',
-        items: ['View All', 'T-Shirt Bras', 'Padded Bras', 'Sports Bras', 'Strapless Bras', 'Push Up Bras']
+        title: 'By Type',
+        items: ['View All', 'Front Load Fully Automatic', 'Top Load Fully Automatic', 'Semi Automatic Washers', 'Washer Dryer Combos']
       },
       {
-        title: 'Panties',
-        items: ['View All', 'Cotton Panties', 'Seamless Panties', 'Briefs & Hipsters', 'Thongs & Bikini Panties']
+        title: 'Capacity',
+        items: ['6.5 kg to 7 kg', '7.5 kg to 8.5 kg', '9 kg and Above', 'Commercial Laundry']
       },
       {
-        title: 'Shapewear & Sets',
-        items: ['Tummy Tuckers', 'Body Shapers', 'Bra & Panty Sets', 'Bridal Lingerie']
+        title: 'Smart Features',
+        items: ['AI Direct Drive', 'EcoBubble Steam Wash', 'Inverter Motor', 'Heater Built-in']
       },
       {
-        title: 'Sleepwear',
-        items: ['Babydolls', 'Satin Nightdresses', 'Nighty & Gowns', 'Lounge Sets']
+        title: 'Top Brands',
+        items: ['LG AI Direct Drive', 'Samsung EcoBubble', 'Bosch Series 4 & 6', 'Haier', 'Whirlpool']
       }
     ]
   },
   {
-    id: 'men',
-    name: 'Men',
+    id: 'cooling',
+    name: 'Air Conditioners',
     columns: [
       {
-        title: 'Top Wear',
-        items: ['View All', 'T-Shirts', 'Casual Shirts', 'Formal Shirts', 'Polo T-Shirts', 'Kurtas']
+        title: 'By Tonnage',
+        items: ['View All', '1 Ton AC (Small Rooms)', '1.5 Ton AC (Medium Rooms)', '2 Ton AC (Large Rooms)']
       },
       {
-        title: 'Bottom Wear',
-        items: ['View All', 'Jeans', 'Casual Trousers', 'Formal Trousers', 'Track Pants', 'Shorts & 3/4ths']
+        title: 'AC Types',
+        items: ['Inverter Split ACs', 'Window ACs', 'Convertible 6-in-1 ACs', 'Hot and Cold ACs', 'Smart WiFi ACs']
       },
       {
-        title: 'Ethnic Wear',
-        items: ['Kurta Sets', 'Nehru Jackets', 'Sherwanis', 'Dhotis']
+        title: 'Energy Efficiency',
+        items: ['5 Star Inverter ACs', '4 Star Inverter ACs', '3 Star Inverter ACs', 'Copper Condenser Coil']
       },
       {
-        title: 'Innerwear',
-        items: ['Vests', 'Briefs & Trunks', 'Boxers', 'Thermal Wear']
-      },
-      {
-        title: 'Men Accessories',
-        items: ['Belts', 'Wallets', 'Caps & Hats', 'Ties & Cufflinks', 'Sunglasses']
+        title: 'Top AC Brands',
+        items: ['Voltas Adjustable', 'LG Dual Inverter', 'Daikin', 'Blue Star', 'Panasonic Smart AC']
       }
     ]
   },
   {
-    id: 'kids-toys',
-    name: 'Kids & Toys',
+    id: 'kitchen-appliances',
+    name: 'Kitchen Appliances',
     columns: [
       {
-        title: 'Boys Clothing',
-        items: ['T-Shirts & Shirts', 'Jeans & Trousers', 'Ethnic Wear', 'Shorts', 'Clothing Sets']
+        title: 'Cooking & Heating',
+        items: ['View All', 'Convection Microwaves', 'Solo & Grill Microwaves', 'Air Fryers & OTGs', 'All-in-One Multicookers', 'Induction Cooktops']
       },
       {
-        title: 'Girls Clothing',
-        items: ['Dresses & Frocks', 'Tops & Tees', 'Lehenga Choli', 'Kurti Sets', 'Skirts & Shorts']
+        title: 'Food Preparation',
+        items: ['Mixer Grinders (750W / 1000W)', 'Food Processors', 'Hand Blenders & Choppers', 'Juicers']
       },
       {
-        title: 'Baby Care & Infant',
-        items: ['Rompers & Sleepsuits', 'Baby Bedding', 'Baby Feeding', 'Diapers & Wipes']
+        title: 'Coffee & Breakfast',
+        items: ['Espresso Machines', 'Coffee Makers', 'Pop-up Toasters', 'Electric Kettles', 'Sandwich Makers']
       },
       {
-        title: 'Toys & Games',
-        items: ['Soft Toys', 'Board Games', 'Action Figures', 'Educational Toys', 'Remote Control Toys']
+        title: 'Top Brands',
+        items: ['Philips', 'Bosch', 'Whirlpool', 'Panasonic', 'Morphy Richards']
       }
     ]
   },
   {
-    id: 'home-kitchen',
-    name: 'Home & Kitchen',
+    id: 'dishwashers',
+    name: 'Dishwashers',
     columns: [
       {
-        title: 'Home Furnishing',
-        items: ['Bedsheets', 'Curtains & Drapes', 'Cushion Covers', 'Blankets & Quilts', 'Carpets & Rugs']
+        title: 'Dishwasher Type',
+        items: ['View All', 'Built-in Dishwashers', 'Freestanding Dishwashers', 'Table Top Dishwashers']
       },
       {
-        title: 'Kitchen & Dining',
-        items: ['Cookware Sets', 'Dinner Sets', 'Kitchen Storage & Containers', 'Bottles & Flasks', 'Lunch Boxes']
+        title: 'Place Settings',
+        items: ['12 Place Settings', '13 & 14 Place Settings', '15+ Place Settings (Large Family)']
       },
       {
-        title: 'Home Decor',
-        items: ['Wall Clocks', 'Wall Art & Paintings', 'Showpieces & Figurines', 'Lighting & Lamps', 'Flower Vases']
+        title: 'Key Features',
+        items: ['Intensive Kadhai 70°', 'Quiet Inverter Drive', 'Hygiene Dry', 'VarioSpeed Plus']
       },
       {
-        title: 'Appliances',
-        items: ['Blenders & Mixers', 'Electric Kettles', 'Air Fryers', 'Irons', 'Induction Cooktops']
+        title: 'Top Brands',
+        items: ['Bosch Series 4', 'Bosch Series 6', 'Bosch Series 8', 'LG TrueSteam', 'Siemens']
       }
     ]
   },
   {
-    id: 'beauty-health',
-    name: 'Beauty & Health',
+    id: 'floor-care',
+    name: 'Vacuum & Floor Care',
     columns: [
       {
-        title: 'Make Up',
-        items: ['Lipstick & Lip Gloss', 'Eye Liner & Kajal', 'Foundations & Compact', 'Nail Polish', 'Makeup Brushes']
+        title: 'Vacuum Cleaners',
+        items: ['View All', 'Cordless Stick Vacuums', 'Robot Vacuum Cleaners', 'Canister / Bagless Cleaners', 'Handheld Vacuums']
       },
       {
-        title: 'Skincare',
-        items: ['Face Wash & Cleansers', 'Moisturizers & Creams', 'Sunscreen', 'Face Serums', 'Face Masks']
+        title: 'Features & Technology',
+        items: ['Laser Dust Detection', 'HEPA Filtration', 'Wet & Dry Cleaning', 'Pet Hair Specialists']
       },
       {
-        title: 'Haircare',
-        items: ['Shampoo & Conditioners', 'Hair Oils', 'Hair Serums', 'Hair Styling & Color']
-      },
-      {
-        title: 'Fragrances & Personal Care',
-        items: ['Perfumes & Body Mists', 'Deodorants', 'Body Lotions', 'Oral Care', 'Bath & Shower']
+        title: 'Top Brands',
+        items: ['Dyson V15 Detect', 'Dyson V8 Slim', 'Bosch Series 6', 'Eureka Forbes', 'Ecovacs Deebot']
       }
     ]
   },
   {
-    id: 'jewellery-accessories',
-    name: 'Jewellery & Accessories',
+    id: 'small-appliances',
+    name: 'Air Purifiers & Care',
     columns: [
       {
-        title: 'Jewellery Sets',
-        items: ['Kundan Sets', 'Temple Jewellery', 'Oxidised Sets', 'American Diamond Sets', 'Choker Sets']
+        title: 'Air Quality & Purifiers',
+        items: ['View All', 'HEPA Air Purifiers', 'Hot + Cool Purifiers', 'Car Air Purifiers', 'Replacement Filters']
       },
       {
-        title: 'Earrings & Rings',
-        items: ['Jhumkas', 'Studs & Tops', 'Drop & Danglers', 'Finger Rings', 'Nosepins']
+        title: 'Home Care Electronics',
+        items: ['Garment Steamers', 'Electric Steam Irons', 'Dehumidifiers', 'Smart Insect Traps']
       },
       {
-        title: 'Necklaces & Bangles',
-        items: ['Pendant Necklaces', 'Mangalsutras', 'Bangles & Bracelets', 'Anklets & Payals']
-      },
-      {
-        title: 'Women Accessories',
-        items: ['Hair Accessories', 'Saree Pins & Brooches', 'Umbrellas', 'Scarves & Stoles']
+        title: 'Top Brands',
+        items: ['Dyson Purifier Cool', 'Philips 800 Series', 'Coway AirMega', 'Havells']
       }
     ]
   },
   {
-    id: 'bags-footwear',
-    name: 'Bags & Footwear',
+    id: 'water-purifiers',
+    name: 'Water Purifiers',
     columns: [
       {
-        title: 'Women Footwear',
-        items: ['View All', 'Heels and Sandals', 'Flats', 'Boots', 'Flipflops & Slippers', 'Bellies and Ballerinas']
+        title: 'Purification Technology',
+        items: ['View All', 'RO + UV + UF Water Purifiers', 'Alkaline Mineral Purifiers', 'Copper Charge Purifiers', 'Tankless Instant Purifiers']
       },
       {
-        title: 'Men Footwear',
-        items: ['View All', 'Men Casual Shoes', 'Men Sports Shoes', 'Men Flip Flops and Sandals', 'Men Formal Shoes', 'Loafers']
+        title: 'Mounting & Capacity',
+        items: ['Wall Mounted Purifiers', 'Under the Sink Purifiers', 'Table Top Models', 'Large Storage (8L - 10L)']
       },
       {
-        title: 'Kids Footwear',
-        items: ['View All', 'Boys Shoes', 'Girls Shoes', 'Casual Shoes', 'Flipflops & Slippers', 'Sandals']
-      },
-      {
-        title: 'Women Bags',
-        items: ['View All', 'Backpacks', 'Handbags', 'Slingbags', 'Wallets', 'Clutches']
-      },
-      {
-        title: 'Men Bags',
-        items: ['Backpacks', 'Waist Bags', 'Crossbody Bags & Sling Bags']
-      },
-      {
-        title: 'Travel Bags, Luggage and Accessories',
-        items: ['View All', 'Duffel & Trolley Bags', 'Laptop & Messenger Bags']
+        title: 'Top Brands',
+        items: ['LG PuriCare Tankless', 'Panasonic 2-in-1', 'Kent Grand', 'Aquaguard / Eureka Forbes', 'AO Smith']
       }
     ]
   },
   {
-    id: 'electronics',
-    name: 'Electronics',
+    id: 'audio-accessories',
+    name: 'Audio & Gadgets',
     columns: [
       {
-        title: 'Mobile Accessories',
-        items: ['Phone Covers & Cases', 'Screen Protectors', 'Mobile Chargers & Cables', 'Power Banks', 'Mobile Stands']
+        title: 'Audio',
+        items: ['View All', 'Bluetooth Earphones & TWS', 'Over-Ear Headphones', 'Party Speakers', 'Soundbars']
       },
       {
-        title: 'Audio & Wearables',
-        items: ['Bluetooth Earphones & TWS', 'Headphones', 'Bluetooth Speakers', 'Smartwatches']
+        title: 'Accessories & Smart Home',
+        items: ['Smart Plugs', 'Voltage Stabilizers', 'Power Strips & Surge Protectors', 'HDMI 2.1 Cables', 'TV Wall Mounts']
       },
       {
-        title: 'Computer & Peripherals',
-        items: ['Keyboards & Mice', 'USB Flash Drives', 'Mousepads', 'Laptop Stands']
-      },
-      {
-        title: 'Smart Home & Care',
-        items: ['Trimmers & Shavers', 'Hair Dryers & Straighteners', 'Extension Cords', 'Smart Plugs']
-      }
-    ]
-  },
-  {
-    id: 'watches',
-    name: 'Watches',
-    columns: [
-      {
-        title: 'Men Watches',
-        items: ['View All', 'Analog Watches', 'Digital Watches', 'Chronograph Watches', 'Leather Strap Watches', 'Metal Strap Watches']
-      },
-      {
-        title: 'Women Watches',
-        items: ['View All', 'Analog Watches', 'Designer Watches', 'Rose Gold Watches', 'Strap & Bracelet Watches']
-      },
-      {
-        title: 'Smart Watches',
-        items: ['Fitness Bands', 'Calling Smartwatches', 'Sports Watches', 'Kids Smartwatches']
-      }
-    ]
-  },
-  {
-    id: 'sports-fitness',
-    name: 'Sports & Fitness',
-    columns: [
-      {
-        title: 'Fitness & Gym',
-        items: ['Dumbbells & Weights', 'Resistance Bands', 'Yoga Mats', 'Skipping Ropes', 'Gym Gloves']
-      },
-      {
-        title: 'Sports Gear',
-        items: ['Cricket Gear', 'Badminton Racquets & Shuttles', 'Football', 'Swimming Essentials', 'Skating']
-      },
-      {
-        title: 'Sportswear',
-        items: ['Gym T-Shirts', 'Track Pants & Tights', 'Sports Bras', 'Sweatbands & Sippers']
-      }
-    ]
-  },
-  {
-    id: 'car-motorbike',
-    name: 'Car & Motorbike',
-    columns: [
-      {
-        title: 'Bike Accessories',
-        items: ['Helmets', 'Bike Covers', 'Riding Gloves', 'Riding Jackets', 'Mobile Holders']
-      },
-      {
-        title: 'Car Accessories',
-        items: ['Car Perfumes', 'Car Seat Covers', 'Cleaning Cloths & Dusters', 'Car Mobile Chargers', 'Sunshades']
-      }
-    ]
-  },
-  {
-    id: 'office-supplies',
-    name: 'Office Supplies',
-    columns: [
-      {
-        title: 'Stationery',
-        items: ['Notebooks & Diaries', 'Pens & Pencils', 'Files & Folders', 'Desk Organizers']
-      },
-      {
-        title: 'Art & Craft',
-        items: ['Paints & Canvases', 'Markers & Highlighters', 'Glue & Adhesives', 'Scissors & Cutters']
-      },
-      {
-        title: 'Calculators & Electronics',
-        items: ['Scientific & Basic Calculators', 'Laminators', 'Label Makers']
+        title: 'Top Brands',
+        items: ['Sony', 'JBL', 'Bose', 'Philips', 'V-Guard']
       }
     ]
   }
