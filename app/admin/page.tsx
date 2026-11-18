@@ -793,7 +793,7 @@ export default function AdminPage() {
 
                   <div className="pt-6 border-t border-slate-100 mt-6">
                     <button 
-                      onClick={() => setActiveTab('products')}
+                      onClick={() => setActiveTab('inventory')}
                       className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-xs font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm"
                       style={{ color: '#ffffff' }}
                     >
