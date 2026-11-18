@@ -436,7 +436,7 @@ export default function AdminPage() {
                 >
                   <span className="flex items-center gap-2.5 min-w-0">
                     <Type size={16} className="flex-shrink-0" />
-                    <span className="truncate">Content CMS & Images</span>
+                    <span>CMS</span>
                   </span>
                   <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full bg-pink-500/20 text-pink-300 font-semibold flex-shrink-0">
                     {contentItems.length}
