@@ -111,7 +111,7 @@ function FilterSidebar({ filter, setFilter, priceCap, setPriceCap, minRating, se
   return <aside className="filter-sidebar"><div className="filter-sidebar-head"><div><strong>FILTERS</strong><small>30 thoughtful finds</small></div><button onClick={clearFilters}>Clear all</button></div><details className="filter-group" open><summary>Category <ChevronDown size={13} /></summary><label className="filter-search"><Search size={13} /><input value={categorySearch} onChange={event => setCategorySearch(event.target.value)} placeholder="Search category" /></label><div className="filter-options">{categoryNames.filter(name => name.toLowerCase().includes(categorySearch.toLowerCase())).map(name => <label key={name}><input type="checkbox" checked={filter === name} onChange={event => setFilter(event.target.checked ? name : 'All')} /><span>{name}</span></label>)}</div></details><details className="filter-group" open><summary>Brand <ChevronDown size={13} /></summary><div className="filter-options">{brandNames.map(name => <label key={name}><input type="checkbox" checked={filter === name} onChange={event => setFilter(event.target.checked ? name : 'All')} /><span>{name}</span></label>)}</div></details><details className="filter-group" open><summary>Price <ChevronDown size={13} /></summary><select className="sidebar-select" value={priceCap} onChange={event => setPriceCap(Number(event.target.value))} aria-label="Maximum price"><option value={200000}>All prices</option><option value={100000}>Under ₹1,00,000</option><option value={50000}>Under ₹50,000</option><option value={25000}>Under ₹25,000</option></select></details><details className="filter-group" open><summary>Customer rating <ChevronDown size={13} /></summary><div className="filter-options">{[4, 3, 0].map(value => <label key={value}><input type="radio" name="rating" checked={minRating === value} onChange={() => setMinRating(value)} /><span>{value === 0 ? 'All ratings' : `${value}+ stars`}</span></label>)}</div></details><details className="filter-group"><summary>Availability <ChevronDown size={13} /></summary><label className="filter-check"><input type="checkbox" checked={availableOnly} onChange={event => setAvailableOnly(event.target.checked)} /><span>In stock only</span></label></details><details className="filter-group"><summary>Energy efficiency <ChevronDown size={13} /></summary><label className="filter-check"><input type="checkbox" checked={energyOnly} onChange={event => setEnergyOnly(event.target.checked)} /><span>5-star rated only</span></label></details></aside>
 }
 function SectionHeading({ eyebrow, title, link, onClick }: { eyebrow: string; title: string; link?: string; onClick?: () => void }) { return <div className="section-heading"><div><div className="eyebrow">{eyebrow}</div><h2>{title}</h2></div>{link && <button className="text-link" onClick={onClick}>{link} <ArrowRight size={16} /></button>}</div> }
-function Footer({ navigate }: { navigate: (p: string) => void }) {
+function Footer({ navigate, content }: { navigate: (p: string) => void; content?: Record<string, string> }) {
   return (
     <footer className="footer">
       <div className="footer-main">
@@ -125,23 +125,23 @@ function Footer({ navigate }: { navigate: (p: string) => void }) {
               className="text-[26px] font-black tracking-tight text-[#881353] group-hover:text-[#a8226d] transition-colors"
               style={{ fontFamily: 'var(--font-serif, "Cinzel", "Playfair Display", Georgia, serif)', letterSpacing: '0.04em' }}
             >
-              Raja
+              {content?.header_brand_first || 'Raja'}
             </span>
             <span
               className="text-[26px] font-black tracking-tight text-[#c2185b] group-hover:text-[#e91e63] transition-colors"
               style={{ fontFamily: 'var(--font-serif, "Cinzel", "Playfair Display", Georgia, serif)', letterSpacing: '0.04em' }}
             >
-              Rani
+              {content?.header_brand_second || 'Rani'}
             </span>
           </button>
-          <p>Better living starts here.<br />Thoughtfully chosen for the way you live.</p>
+          <p style={{ whiteSpace: 'pre-line' }}>{content?.footer_desc || 'Better living starts here.\nThoughtfully chosen for the way you live.'}</p>
           <div className="social-row"><a href="#instagram" aria-label="Instagram">ig</a><a href="#pinterest" aria-label="Pinterest">p</a><a href="#youtube" aria-label="YouTube">yt</a></div>
         </div>
         <div className="footer-col"><strong>Explore</strong>{['Shop all', 'Categories', 'Our brands', 'Today’s edit'].map((x, i) => <button key={x} onClick={() => navigate(['shop', 'categories', 'brands', 'deals'][i])}>{x}</button>)}</div>
-        <div className="footer-col"><strong>We’re here</strong><a href="mailto:hello@rajarani.in">Contact us</a><button onClick={() => window.dispatchEvent(new CustomEvent('rajarani-toast', { detail: 'Our delivery guide: complimentary delivery over ₹10,000.' }))}>Delivery & returns</button><button onClick={() => window.dispatchEvent(new CustomEvent('rajarani-toast', { detail: 'Every product comes with manufacturer warranty.' }))}>Warranty & care</button></div>
-        <div className="footer-note"><div className="eyebrow">A BETTER KIND OF HOME</div><p>Good design should make everyday feel a little more extraordinary.</p><span>Built with care, in India. © RajaRani 2025</span></div>
+        <div className="footer-col"><strong>We’re here</strong><a href={`mailto:${content?.contact_email || 'hello@rajarani.in'}`}>Contact us</a><button onClick={() => window.dispatchEvent(new CustomEvent('rajarani-toast', { detail: 'Our delivery guide: complimentary delivery over ₹10,000.' }))}>Delivery & returns</button><button onClick={() => window.dispatchEvent(new CustomEvent('rajarani-toast', { detail: 'Every product comes with manufacturer warranty.' }))}>Warranty & care</button></div>
+        <div className="footer-note"><div className="eyebrow">{content?.footer_note_title || 'A BETTER KIND OF HOME'}</div><p>{content?.footer_note_body || 'Good design should make everyday feel a little more extraordinary.'}</p><span>Built with care, in India. © RajaRani 2025</span></div>
       </div>
-      <div className="footer-bottom"><span>© 2025 RajaRani Living Pvt. Ltd.</span><span>Thoughtfully selected. Fairly priced. Delivered with care.</span><span>Made for India <span className="india-dot">●</span></span></div>
+      <div className="footer-bottom"><span>{content?.footer_copyright || '© 2025 RajaRani Living Pvt. Ltd.'}</span><span>{content?.footer_subline || 'Thoughtfully selected. Fairly priced. Delivered with care.'}</span><span>Made for India <span className="india-dot">●</span></span></div>
     </footer>
   )
 }
@@ -149,22 +149,68 @@ function Footer({ navigate }: { navigate: (p: string) => void }) {
 export default function Storefront({ cart, setCart, wishlist, setWishlist }: Props) {
   const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS)
   const [loadingProducts, setLoadingProducts] = useState(true)
+  const [cmsCategories, setCmsCategories] = useState(categories)
+  const [content, setContent] = useState<Record<string, string>>({
+    hero_title: 'Upgrade your\neveryday living.',
+    hero_subtitle: 'Thoughtfully selected premium electronics and home appliances for the modern Indian home.',
+    hero_button_text: 'Explore collection',
+    hero_image: '/rajarani-hero.jpg',
+    trust_1: 'Considered delivery, on us',
+    trust_2: 'Easy 7-day returns',
+    trust_3: 'Genuine, guaranteed',
+    trust_4: 'Real people, here to help',
+    cat_eyebrow: 'A PLACE FOR EVERYTHING',
+    cat_title: 'Find your kind of better.',
+    cat_link_text: 'Explore all categories',
+    catalog_eyebrow: 'THOUGHTFULLY CHOSEN FOR HOME',
+    catalog_title: 'Products for you.',
+    catalog_subtitle: 'Appliances that make everyday feel a little easier.',
+    editorial_pill: 'THE RajaRani LIVING EXPERIENCE',
+    editorial_badge_count: '4,820+ Indian homes styled',
+    editorial_title: 'Elevate every corner of your daily sanctuary.',
+    editorial_desc: 'Appliances engineered for effortless convenience, wrapped in timeless aesthetics. Less noise, zero clutter — only what truly enriches your home life.',
+    editorial_stamp_top: '100% GENUINE',
+    editorial_stamp_bottom: 'QUALITY GUARANTEE',
+    editorial_image: 'photo-1556911220-e15b29be8c8f',
+    promo_badge: 'LIMITED SEASON HIGHLIGHT',
+    promo_title: 'Pure living,\nsilently refined.',
+    promo_desc: 'Discover our certified quiet collection. Thoughtful kitchen & cooling essentials built to fit seamless into modern Indian homes.',
+    promo_btn_text: 'Explore curated edit',
+    promo_tag: 'Up to 35% off curated range',
+    promo_image: '/rajarani-hero.jpg',
+    announcement_bar: 'Special Inaugural Offer: Complimentary Express Delivery across India on orders above ₹10,000',
+    footer_desc: 'Better living starts here.\nThoughtfully chosen for the way you live.',
+    footer_note_title: 'A BETTER KIND OF HOME',
+    footer_note_body: 'Good design should make everyday feel a little more extraordinary.',
+    footer_copyright: '© 2025 RajaRani Living Pvt. Ltd.',
+    footer_subline: 'Thoughtfully selected. Fairly priced. Delivered with care.'
+  })
 
   useEffect(() => {
-    async function loadDynamicProducts() {
+    async function loadDynamicStoreData() {
       try {
-        const res = await fetch('/api/products')
-        const data = await res.json()
-        if (data.success && Array.isArray(data.products) && data.products.length > 0) {
-          setProducts(data.products)
+        const [prodRes, contentRes, catRes] = await Promise.all([
+          fetch('/api/products').then(r => r.json()).catch(() => null),
+          fetch('/api/content').then(r => r.json()).catch(() => null),
+          fetch('/api/categories').then(r => r.json()).catch(() => null)
+        ])
+
+        if (prodRes?.success && Array.isArray(prodRes.products) && prodRes.products.length > 0) {
+          setProducts(prodRes.products)
+        }
+        if (contentRes?.success && contentRes.content) {
+          setContent(prev => ({ ...prev, ...contentRes.content }))
+        }
+        if (catRes?.success && Array.isArray(catRes.categories) && catRes.categories.length > 0) {
+          setCmsCategories(catRes.categories)
         }
       } catch (err) {
-        console.error('Failed to fetch products from MySQL, using fallback', err)
+        console.error('Failed to fetch dynamic data from MySQL, using fallback', err)
       } finally {
         setLoadingProducts(false)
       }
     }
-    loadDynamicProducts()
+    loadDynamicStoreData()
   }, [])
 
   const [page, setPage] = useState('home'), [query, setQuery] = useState(''), [cartOpen, setCartOpen] = useState(false), [menuOpen, setMenuOpen] = useState(false), [sort, setSort] = useState('Featured'), [filter, setFilter] = useState('All'), [priceCap, setPriceCap] = useState(200000), [minRating, setMinRating] = useState(0), [availableOnly, setAvailableOnly] = useState(false), [energyOnly, setEnergyOnly] = useState(false), [categorySearch, setCategorySearch] = useState(''), [toast, setToast] = useState(''), [detailId, setDetailId] = useState<number | null>(null), [checkoutDone, setCheckoutDone] = useState(false), [email, setEmail] = useState(''), [subscribed, setSubscribed] = useState(false), [pin, setPin] = useState(''), [pinMessage, setPinMessage] = useState('')
@@ -217,34 +263,34 @@ export default function Storefront({ cart, setCart, wishlist, setWishlist }: Pro
       onOpenProfile={() => notify('Account: Log in / Sign up coming soon')}
     />
     {page === 'home' && <>
-      <main><section className="hero"><Image src="/rajarani-hero.jpg" alt="RajaRani premium electronics and home living" fill priority sizes="100vw" /><div className="hero-shade" /><div className="hero-content"><h1>Upgrade your<br />everyday <em>living.</em></h1><p>Thoughtfully selected premium electronics and home appliances for the modern Indian home.</p><div className="hero-actions"><button className="button-dark" onClick={() => navigate('shop')}>Explore collection <ArrowRight size={16} /></button></div></div></section>
-        <section className="trust-strip"><span><Truck /> Considered delivery, on us</span><i /><span><PackageCheck /> Easy 7-day returns</span><i /><span><ShieldCheck /> Genuine, guaranteed</span><i /><span><Headphones /> Real people, here to help</span></section>
-        <section className="content-section category-section"><SectionHeading eyebrow="A PLACE FOR EVERYTHING" title="Find your kind of better." link="Explore all categories" onClick={() => navigate('categories')} /><div className="category-rail">{categories.map((c, i) => <button className="category-rail-item" key={c.name} onClick={() => { setFilter(c.name === 'Laundry' ? 'Laundry' : c.name === 'Floor care' ? 'Floor care' : c.name === 'Kitchen' ? 'Kitchen' : c.name === 'Cooling' ? 'Cooling' : c.name === 'Televisions' ? 'Televisions' : c.name); navigate('shop') }}><span className={`category-rail-image tone-${i % 5}`}><Image src={categoryPhoto(c.image, 420)} alt="" fill sizes="(max-width: 700px) 40vw, 14vw" /></span><strong>{c.name}</strong></button>)}</div></section>
-        <section className="content-section home-catalog-section"><div className="home-catalog-heading"><div><div className="eyebrow">THOUGHTFULLY CHOSEN FOR HOME</div><h2>Products for you.</h2><p>Appliances that make everyday feel a little easier.</p></div><button className="text-link" onClick={() => navigate('shop')}>Open full shop <ArrowRight size={16} /></button></div><div className="catalog-layout"><FilterSidebar filter={filter} setFilter={setFilter} priceCap={priceCap} setPriceCap={setPriceCap} minRating={minRating} setMinRating={setMinRating} availableOnly={availableOnly} setAvailableOnly={setAvailableOnly} energyOnly={energyOnly} setEnergyOnly={setEnergyOnly} categorySearch={categorySearch} setCategorySearch={setCategorySearch} clearFilters={() => { setFilter('All'); setPriceCap(200000); setMinRating(0); setAvailableOnly(false); setEnergyOnly(false); setCategorySearch('') }} /><section className="catalog-products"><div className="catalog-toolbar"><span>{shown.length} products <small>· selected for your home</small></span><label className="sort-select"><span>Sort by:</span><select value={sort} onChange={event => setSort(event.target.value)} aria-label="Sort products">{['Featured', 'Price: Low to high', 'Price: High to low', 'Top rated'].map(option => <option key={option}>{option}</option>)}</select><ChevronDown size={13} /></label></div><div className="product-grid listing-grid catalog-grid">{shown.map(product => <ProductCard key={product.id} product={product} wishlist={wishlist} toggleWish={toggleWish} addCart={addCart} buyNow={buyNow} open={openProduct} />)}</div>{shown.length === 0 && <div className="empty-state"><Search size={30} /><h2>No good finds just yet.</h2><p>Try widening your filters to see more of the collection.</p><button className="button-dark" onClick={() => { setFilter('All'); setPriceCap(200000); setMinRating(0); setAvailableOnly(false); setEnergyOnly(false) }}>Clear filters <ArrowRight size={16} /></button></div>}</section></div></section>
+      <main><section className="hero"><Image src={categoryPhoto(content.hero_image, 1800)} alt="RajaRani premium electronics and home living" fill priority sizes="100vw" /><div className="hero-shade" /><div className="hero-content"><h1 style={{ whiteSpace: 'pre-line' }}>{content.hero_title}</h1><p>{content.hero_subtitle}</p><div className="hero-actions"><button className="button-dark" onClick={() => navigate('shop')}>{content.hero_button_text} <ArrowRight size={16} /></button></div></div></section>
+        <section className="trust-strip"><span><Truck /> {content.trust_1}</span><i /><span><PackageCheck /> {content.trust_2}</span><i /><span><ShieldCheck /> {content.trust_3}</span><i /><span><Headphones /> {content.trust_4}</span></section>
+        <section className="content-section category-section"><SectionHeading eyebrow={content.cat_eyebrow} title={content.cat_title} link={content.cat_link_text} onClick={() => navigate('categories')} /><div className="category-rail">{cmsCategories.map((c, i) => <button className="category-rail-item" key={c.name} onClick={() => { setFilter(c.name === 'Laundry' ? 'Laundry' : c.name === 'Floor care' ? 'Floor care' : c.name === 'Kitchen' ? 'Kitchen' : c.name === 'Cooling' ? 'Cooling' : c.name === 'Televisions' ? 'Televisions' : c.name); navigate('shop') }}><span className={`category-rail-image tone-${i % 5}`}><Image src={categoryPhoto(c.image, 420)} alt="" fill sizes="(max-width: 700px) 40vw, 14vw" /></span><strong>{c.name}</strong></button>)}</div></section>
+        <section className="content-section home-catalog-section"><div className="home-catalog-heading"><div><div className="eyebrow">{content.catalog_eyebrow}</div><h2>{content.catalog_title}</h2><p>{content.catalog_subtitle}</p></div><button className="text-link" onClick={() => navigate('shop')}>Open full shop <ArrowRight size={16} /></button></div><div className="catalog-layout"><FilterSidebar filter={filter} setFilter={setFilter} priceCap={priceCap} setPriceCap={setPriceCap} minRating={minRating} setMinRating={setMinRating} availableOnly={availableOnly} setAvailableOnly={setAvailableOnly} energyOnly={energyOnly} setEnergyOnly={setEnergyOnly} categorySearch={categorySearch} setCategorySearch={setCategorySearch} clearFilters={() => { setFilter('All'); setPriceCap(200000); setMinRating(0); setAvailableOnly(false); setEnergyOnly(false); setCategorySearch('') }} /><section className="catalog-products"><div className="catalog-toolbar"><span>{shown.length} products <small>· selected for your home</small></span><label className="sort-select"><span>Sort by:</span><select value={sort} onChange={event => setSort(event.target.value)} aria-label="Sort products">{['Featured', 'Price: Low to high', 'Price: High to low', 'Top rated'].map(option => <option key={option}>{option}</option>)}</select><ChevronDown size={13} /></label></div><div className="product-grid listing-grid catalog-grid">{shown.map(product => <ProductCard key={product.id} product={product} wishlist={wishlist} toggleWish={toggleWish} addCart={addCart} buyNow={buyNow} open={openProduct} />)}</div>{shown.length === 0 && <div className="empty-state"><Search size={30} /><h2>No good finds just yet.</h2><p>Try widening your filters to see more of the collection.</p><button className="button-dark" onClick={() => { setFilter('All'); setPriceCap(200000); setMinRating(0); setAvailableOnly(false); setEnergyOnly(false) }}>Clear filters <ArrowRight size={16} /></button></div>}</section></div></section>
         <section className="editorial-banner">
           <div className="editorial-image">
-            <Image src={photo('photo-1556911220-e15b29be8c8f', 1400)} alt="Warm, naturally lit kitchen" fill sizes="100vw" />
+            <Image src={categoryPhoto(content.editorial_image, 1400)} alt="Warm, naturally lit kitchen" fill sizes="100vw" />
             <div className="editorial-image-overlay" />
 
             {/* Floating Live Badge */}
             <div className="editorial-floating-pill">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block mr-1.5" />
-              <span className="text-xs font-semibold text-slate-800">4,820+ Indian homes styled</span>
+              <span className="text-xs font-semibold text-slate-800">{content.editorial_badge_count}</span>
             </div>
           </div>
 
           <div className="editorial-copy">
             <div className="editorial-pill-tag">
               <Sparkles size={12} className="text-[#c2185b]" />
-              <span>THE <span style={{ color: '#881353', fontWeight: 800 }}>Raja</span><span style={{ color: '#c2185b', fontWeight: 800 }}>Rani</span> LIVING EXPERIENCE</span>
+              <span>{content.editorial_pill}</span>
             </div>
 
             <h2>
-              Elevate every corner of your <em>daily sanctuary.</em>
+              {content.editorial_title}
             </h2>
 
             <p>
-              Appliances engineered for effortless convenience, wrapped in timeless aesthetics. Less noise, zero clutter — only what truly enriches your home life.
+              {content.editorial_desc}
             </p>
 
             {/* Micro-Features highlight grid */}
@@ -283,8 +329,8 @@ export default function Storefront({ cart, setCart, wishlist, setWishlist }: Pro
           {/* Luxury Seal Badge */}
           <div className="editorial-stamp">
             <ShieldCheck size={18} className="text-amber-300" />
-            <span>100%<br />GENUINE</span>
-            <small>QUALITY GUARANTEE</small>
+            <span>{content.editorial_stamp_top}</span>
+            <small>{content.editorial_stamp_bottom}</small>
           </div>
         </section>
         <section className="newsletter"><div className="newsletter-copy"><div className="eyebrow">A LITTLE GOOD IN YOUR INBOX</div><h2>Notes for a better home.</h2><p>Thoughtful finds, new arrivals and the occasional little surprise. Never the noise.</p></div><form className="newsletter-form" onSubmit={e => { e.preventDefault(); if (email.includes('@')) { setSubscribed(true); setEmail('') } else notify('Please enter a valid email address.') }}><label htmlFor="newsletter-email" className="sr-only">Email address</label><input id="newsletter-email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Your email address" required /><button type="submit">{subscribed ? 'You’re on the list' : 'Count me in'} <ArrowRight size={16} /></button><small>{subscribed ? 'Welcome to the good list.' : 'No spam, ever. Just the good stuff.'}</small></form></section></main>
@@ -293,8 +339,9 @@ export default function Storefront({ cart, setCart, wishlist, setWishlist }: Pro
       <div className="shop-promo-card">
         {/* Left Brand Feature */}
         <div className="shop-promo-feature">
-          <span className="shop-promo-kicker">THE RAJARANI EDIT</span>
-          <h2 className="shop-promo-headline">Make room for a better everyday.</h2>
+          <span className="shop-promo-kicker">{content.promo_badge}</span>
+          <h2 className="shop-promo-headline" style={{ whiteSpace: 'pre-line' }}>{content.promo_title}</h2>
+          <p className="text-xs text-white/80 mt-1 max-w-[420px]">{content.promo_desc}</p>
         </div>
 
         {/* Right Quick Filter Hub */}
@@ -347,7 +394,7 @@ export default function Storefront({ cart, setCart, wishlist, setWishlist }: Pro
         </div>
       </div>
     )}<div className="listing-intro"><div><div className="eyebrow">{page === 'deals' ? 'A LITTLE SOMETHING GOOD' : page === 'wishlist' ? 'YOUR PERSONAL EDIT' : 'THE RAJARANI COLLECTION'}</div><h1>{page === 'wishlist' ? 'Your saved things.' : page === 'deals' ? 'Good things, better prices.' : page === 'brands' ? 'Meet the makers.' : page === 'categories' ? 'A place for everything.' : 'Products for you.'}</h1><p>{page === 'wishlist' ? 'All the pieces you’ve had your eye on.' : page === 'deals' ? 'A few thoughtful finds, at a little less.' : page === 'brands' ? 'Thoughtful design from the names you know and trust.' : 'Beautifully considered appliances for every corner of home.'}</p></div><span className="result-count">{shown.length} pieces</span></div>
-      {page === 'categories' && <div className="category-grid listing-categories">{categories.map((c, i) => <button className={`category-card cat-${i % 6}`} key={c.name} onClick={() => { setFilter(c.name === 'Laundry' ? 'Laundry' : c.name === 'Floor care' ? 'Floor care' : c.name); navigate('shop') }}><Image src={categoryPhoto(c.image, 800)} alt="" fill sizes="33vw" /><span className="category-shade" /><span className="category-info"><small>{c.note}</small><strong>{c.name}</strong></span><span className="category-arrow"><ArrowUpRight size={17} /></span></button>)}</div>}
+      {page === 'categories' && <div className="category-grid listing-categories">{cmsCategories.map((c, i) => <button className={`category-card cat-${i % 6}`} key={c.name} onClick={() => { setFilter(c.name === 'Laundry' ? 'Laundry' : c.name === 'Floor care' ? 'Floor care' : c.name); navigate('shop') }}><Image src={categoryPhoto(c.image, 800)} alt="" fill sizes="33vw" /><span className="category-shade" /><span className="category-info"><small>{c.note}</small><strong>{c.name}</strong></span><span className="category-arrow"><ArrowUpRight size={17} /></span></button>)}</div>}
       {page === 'brands' && <div className="brand-directory">{brands.map((b, i) => <button key={b} onClick={() => { setFilter(b === 'SAMSUNG' ? 'Samsung' : b[0] + b.slice(1).toLowerCase()); setPage('shop') }}><span>{b}</span><small>Explore collection <ArrowUpRight size={14} /></small></button>)}</div>}
       {(page === 'shop' || page === 'deals') ? <div className="catalog-layout"><FilterSidebar filter={filter} setFilter={setFilter} priceCap={priceCap} setPriceCap={setPriceCap} minRating={minRating} setMinRating={setMinRating} availableOnly={availableOnly} setAvailableOnly={setAvailableOnly} energyOnly={energyOnly} setEnergyOnly={setEnergyOnly} categorySearch={categorySearch} setCategorySearch={setCategorySearch} clearFilters={() => { setFilter('All'); setPriceCap(200000); setMinRating(0); setAvailableOnly(false); setEnergyOnly(false); setCategorySearch('') }} /><section className="catalog-products"><div className="catalog-toolbar"><span>{shown.length} products <small>· sorted for your home</small></span><label className="sort-select"><span>Sort by:</span><select value={sort} onChange={event => setSort(event.target.value)} aria-label="Sort products">{['Featured', 'Price: Low to high', 'Price: High to low', 'Top rated'].map(option => <option key={option}>{option}</option>)}</select><ChevronDown size={13} /></label></div><div className="product-grid listing-grid catalog-grid">{shown.map(product => <ProductCard key={product.id} product={product} wishlist={wishlist} toggleWish={toggleWish} addCart={addCart} buyNow={buyNow} open={openProduct} />)}</div>{shown.length === 0 && <div className="empty-state"><Search size={30} /><h2>No good finds just yet.</h2><p>Try widening your filters to see more of the collection.</p><button className="button-dark" onClick={() => { setFilter('All'); setPriceCap(200000); setMinRating(0); setAvailableOnly(false); setEnergyOnly(false) }}>Clear filters <ArrowRight size={16} /></button></div>}</section></div> : page !== 'categories' && page !== 'brands' && <><div className="filter-bar"><div className="filter-scroll"><button className={`filter-chip ${filter === 'All' ? 'selected' : ''}`} onClick={() => setFilter('All')}>Everything</button>{['Refrigerators', 'Laundry', 'Cooling', 'Televisions', 'Kitchen', 'Floor care', 'Dishwashers', 'Water purifiers', 'Microwaves'].map(category => <button key={category} className={`filter-chip ${filter === category ? 'selected' : ''}`} onClick={() => setFilter(filter === category ? 'All' : category)}>{category}</button>)}</div><label className="sort-select"><SlidersHorizontal size={15} /><select value={sort} onChange={event => setSort(event.target.value)} aria-label="Sort products">{['Featured', 'Price: Low to high', 'Price: High to low', 'Top rated'].map(option => <option key={option}>{option}</option>)}</select><ChevronDown size={14} /></label></div>{page === 'wishlist' && shown.length === 0 ? <div className="empty-state"><Heart size={32} /><h2>A little room for the good things.</h2><p>Save the pieces you love, and they’ll be waiting right here.</p><button className="button-dark" onClick={() => navigate('shop')}>Find something lovely <ArrowRight size={16} /></button></div> : <div className="product-grid listing-grid">{shown.map(product => <ProductCard key={product.id} product={product} wishlist={wishlist} toggleWish={toggleWish} addCart={addCart} buyNow={buyNow} open={openProduct} />)}</div>}</>}
     </main>}
@@ -378,7 +425,7 @@ export default function Storefront({ cart, setCart, wishlist, setWishlist }: Pro
       }
       setCheckoutDone(true);
     }}><h2>Where should we bring it?</h2><div className="form-two"><label>First name<input required placeholder="First name" /></label><label>Last name<input required placeholder="Last name" /></label></div><label>Email address<input type="email" required placeholder="you@example.com" /></label><label>Phone number<input type="tel" required pattern="[0-9+() -]{10,}" placeholder="+91 98765 43210" /></label><label>Street address<input required placeholder="Flat, house number and street" /></label><div className="form-two"><label>City<input required placeholder="City" /></label><label>PIN code<input required pattern="[0-9]{6}" maxLength={6} placeholder="6-digit PIN code" /></label></div><h2 className="payment-heading">How would you like to pay?</h2><label className="payment-choice"><input type="radio" name="payment" defaultChecked /><span><strong>Pay on delivery</strong><small>Cash or UPI, when it arrives</small></span><span className="payment-mark">COD</span></label><label className="payment-choice"><input type="radio" name="payment" /><span><strong>UPI / cards</strong><small>Simulated payment for this demo</small></span><span className="payment-mark">UPI</span></label><button className="button-dark full-button">Place your order <ArrowRight size={16} /></button><p className="checkout-disclaimer">Demo checkout only. No payment will be collected.</p></form><aside className="order-card checkout-summary"><div className="eyebrow">YOUR GOOD THINGS</div><h2>Order summary</h2>{Object.entries(cart).map(([id, n]) => { const p = products.find(x => x.id === Number(id)); return p ? <div className="checkout-item" key={id}><div className="checkout-thumb"><Image src={photo(p.image, 180)} alt="" fill sizes="64px" /></div><span>{p.name}<small>Qty {n}</small></span><strong>{money(p.price * n)}</strong></div> : null })}<div className="order-line"><span>Subtotal</span><span>{money(subtotal)}</span></div><div className="order-line"><span>Delivery</span><span>{subtotal > 10000 ? 'On us' : money(499)}</span></div><div className="order-total"><strong>Total</strong><strong>{money(subtotal + (subtotal > 10000 ? 0 : 499))}</strong></div></aside></div></>}</main>}
-    <Footer navigate={navigate} />
+    <Footer navigate={navigate} content={content} />
     {cartOpen && <><button className="drawer-scrim" aria-label="Close bag" onClick={() => setCartOpen(false)} /><aside className="cart-drawer" aria-label="Your shopping bag"><div className="drawer-head"><div><div className="eyebrow">THE GOOD STUFF</div><h2>Your bag <span>({cartCount})</span></h2></div><button className="icon-button" aria-label="Close" onClick={() => setCartOpen(false)}><X /></button></div>{cartCount === 0 ? <div className="drawer-empty"><ShoppingBag /><h3>Room for something lovely.</h3><p>Your bag is ready when you are.</p><button className="button-dark" onClick={() => { setCartOpen(false); navigate('shop') }}>Explore the collection <ArrowRight size={16} /></button></div> : <><div className="drawer-items">{Object.entries(cart).map(([id, count]) => { const p = products.find(x => x.id === Number(id)); return p ? <div className="drawer-item" key={id}><div className="drawer-thumb"><Image src={photo(p.image, 200)} alt="" fill sizes="90px" /></div><div><small>{p.brand}</small><strong>{p.name}</strong><span>{money(p.price)}</span><div className="quantity"><button onClick={() => setCart({ ...cart, [p.id]: Math.max(0, count - 1) })}>−</button><span>{count}</span><button onClick={() => setCart({ ...cart, [p.id]: count + 1 })}>+</button><button className="drawer-remove" onClick={() => { const n = { ...cart }; delete n[p.id]; setCart(n) }}>Remove</button></div></div></div> : null })}</div><div className="drawer-bottom"><div className="order-line"><span>Subtotal</span><strong>{money(subtotal)}</strong></div><small>{subtotal > 10000 ? 'Your delivery is on us.' : 'Complimentary delivery on orders over ₹10,000.'}</small><button className="button-dark full-button" onClick={() => { setCartOpen(false); navigate('cart') }}>View bag & checkout <ArrowRight size={16} /></button></div></>}</aside></>}
     {detailId !== null && <button className="detail-close" onClick={() => { setDetailId(null); navigate('shop') }} aria-label="Close product preview"><X size={20} /></button>}
     {toast && <div className="toast" role="status"><Check size={16} />{toast}</div>}

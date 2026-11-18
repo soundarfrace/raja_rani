@@ -46,7 +46,12 @@ import {
   MessageSquare,
   ShieldCheck,
   SlidersHorizontal,
-  FileSpreadsheet
+  FileSpreadsheet,
+  Globe,
+  Sliders,
+  Type,
+  FolderTree,
+  Sparkles
 } from 'lucide-react'
 
 // Initial Mock Products
@@ -116,6 +121,8 @@ type AdminTab =
   | 'dashboard' 
   | 'products' 
   | 'inventory'
+  | 'categories'
+  | 'content'
   | 'orders' 
   | 'shipping' 
   | 'returns' 
@@ -134,14 +141,24 @@ export default function AdminPage() {
   const [returns, setReturns] = useState(INITIAL_RETURNS)
   const [warehouses] = useState(INITIAL_WAREHOUSES)
 
+  // CMS Content & Categories state
+  const [contentItems, setContentItems] = useState<any[]>([])
+  const [categoriesList, setCategoriesList] = useState<any[]>([])
+  const [activeContentSection, setActiveContentSection] = useState('all')
+  const [savingContent, setSavingContent] = useState(false)
+  const [showAddCategoryModal, setShowAddCategoryModal] = useState(false)
+  const [newCategory, setNewCategory] = useState({ name: '', note: '', image: '', display_order: 0 })
+
   // Fetch live dynamic data from MySQL
   const fetchAllData = async () => {
     try {
-      const [prodRes, ordRes, custRes, coupRes] = await Promise.all([
+      const [prodRes, ordRes, custRes, coupRes, contentRes, catRes] = await Promise.all([
         fetch('/api/products').then(r => r.json()).catch(() => null),
         fetch('/api/orders').then(r => r.json()).catch(() => null),
         fetch('/api/customers').then(r => r.json()).catch(() => null),
-        fetch('/api/coupons').then(r => r.json()).catch(() => null)
+        fetch('/api/coupons').then(r => r.json()).catch(() => null),
+        fetch('/api/content').then(r => r.json()).catch(() => null),
+        fetch('/api/categories').then(r => r.json()).catch(() => null)
       ])
 
       if (prodRes?.success && Array.isArray(prodRes.products) && prodRes.products.length > 0) {
@@ -155,6 +172,12 @@ export default function AdminPage() {
       }
       if (coupRes?.success && Array.isArray(coupRes.coupons) && coupRes.coupons.length > 0) {
         setCoupons(coupRes.coupons)
+      }
+      if (contentRes?.success && Array.isArray(contentRes.items)) {
+        setContentItems(contentRes.items)
+      }
+      if (catRes?.success && Array.isArray(catRes.categories)) {
+        setCategoriesList(catRes.categories)
       }
     } catch (err) {
       console.error('Error fetching dynamic MySQL data in admin:', err)
@@ -388,6 +411,38 @@ export default function AdminPage() {
                   </span>
                 </button>
                 <button
+                  onClick={() => setActiveTab('categories')}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                    activeTab === 'categories'
+                      ? 'bg-pink-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                  }`}
+                >
+                  <span className="flex items-center gap-2.5 min-w-0">
+                    <FolderTree size={16} className="flex-shrink-0" />
+                    <span className="truncate">Categories</span>
+                  </span>
+                  <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full bg-slate-800 text-slate-300 flex-shrink-0">
+                    {categoriesList.length}
+                  </span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('content')}
+                  className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                    activeTab === 'content'
+                      ? 'bg-pink-600 text-white shadow-sm'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800/60'
+                  }`}
+                >
+                  <span className="flex items-center gap-2.5 min-w-0">
+                    <Type size={16} className="flex-shrink-0" />
+                    <span className="truncate">Content CMS & Images</span>
+                  </span>
+                  <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full bg-pink-500/20 text-pink-300 font-semibold flex-shrink-0">
+                    {contentItems.length}
+                  </span>
+                </button>
+                <button
                   onClick={() => setActiveTab('inventory')}
                   className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
                     activeTab === 'inventory'
@@ -556,6 +611,8 @@ export default function AdminPage() {
           <div className="flex items-center gap-2">
             <h1 className="text-base md:text-lg font-bold text-slate-900 capitalize">
               {activeTab === 'inventory' ? 'Warehouse & Inventory Management' :
+               activeTab === 'categories' ? 'Store Categories Management' :
+               activeTab === 'content' ? 'Website Content & Image CMS' :
                activeTab === 'shipping' ? 'Order Shipments & Tracking' :
                activeTab === 'returns' ? 'Returns & Customer Refunds' :
                activeTab === 'coupons' ? 'Discount Coupons & Promotional Deals' :
@@ -571,6 +628,14 @@ export default function AdminPage() {
               >
                 <Plus size={15} />
                 Create Coupon
+              </button>
+            ) : activeTab === 'categories' ? (
+              <button 
+                onClick={() => setShowAddCategoryModal(true)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-pink-600 hover:bg-pink-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all"
+              >
+                <Plus size={15} />
+                Add Category
               </button>
             ) : (
               <button 
@@ -1424,6 +1489,295 @@ export default function AdminPage() {
             </div>
           )}
 
+          {/* TAB: CATEGORIES */}
+          {activeTab === 'categories' && (
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-bold text-slate-900">Product Categories & Collections</h2>
+                  <p className="text-xs text-slate-500 mt-0.5">Manage store categories, titles, subtitles, and cover photos appearing on homepage rails.</p>
+                </div>
+                <button
+                  onClick={() => setShowAddCategoryModal(true)}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-pink-600 hover:bg-pink-700 text-white text-xs font-semibold rounded-lg shadow-sm self-start sm:self-auto"
+                >
+                  <Plus size={15} />
+                  Add Category
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {categoriesList.map((cat) => (
+                  <div key={cat.id || cat.name} className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-sm transition-all flex flex-col justify-between">
+                    <div className="p-4">
+                      <div className="flex items-start gap-3">
+                        <div className="w-16 h-16 rounded-lg bg-slate-100 overflow-hidden flex-shrink-0 relative border border-slate-200">
+                          {cat.image ? (
+                            <img
+                              src={cat.image.startsWith('/') ? cat.image : `https://images.unsplash.com/${cat.image}?auto=format&fit=crop&w=200&q=80`}
+                              alt={cat.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-slate-400">
+                              <ImageIcon size={20} />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-sm font-bold text-slate-900 truncate">{cat.name}</h3>
+                            <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700">
+                              Order #{cat.display_order || 0}
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-500 mt-1 line-clamp-2">{cat.note || 'No note provided'}</p>
+                          <div className="text-[11px] text-slate-400 font-mono mt-1.5 truncate">
+                            Slug: {cat.slug || cat.name.toLowerCase()}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="px-4 py-2.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-xs">
+                      <span className="text-slate-500">Live on Storefront</span>
+                      <button
+                        onClick={async () => {
+                          if (confirm(`Are you sure you want to delete category "${cat.name}"?`)) {
+                            try {
+                              const res = await fetch(`/api/categories?id=${cat.id}`, { method: 'DELETE' })
+                              const data = await res.json()
+                              if (data.success) {
+                                setCategoriesList(categoriesList.filter(c => c.id !== cat.id))
+                                showToast('Category removed successfully!')
+                              } else {
+                                showToast('Failed to delete category')
+                              }
+                            } catch {
+                              showToast('Error deleting category')
+                            }
+                          }
+                        }}
+                        className="text-slate-400 hover:text-rose-600 p-1 flex items-center gap-1 font-medium transition-colors"
+                      >
+                        <Trash2 size={13} />
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB: CONTENT CMS & IMAGES */}
+          {activeTab === 'content' && (
+            <div className="space-y-6">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h2 className="text-base font-bold text-slate-900">Website Content, Headings & Banner Images</h2>
+                  <p className="text-xs text-slate-500 mt-0.5">Edit any text, tagline, button label, or banner image on the website in real-time.</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={async () => {
+                      setSavingContent(true)
+                      try {
+                        const payload: Record<string, string> = {}
+                        contentItems.forEach(item => {
+                          payload[item.content_key] = item.content_value
+                        })
+                        const res = await fetch('/api/content', {
+                          method: 'PUT',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ items: payload })
+                        })
+                        const data = await res.json()
+                        if (data.success) {
+                          showToast('All website content & images saved successfully!')
+                        } else {
+                          showToast('Failed to save content')
+                        }
+                      } catch {
+                        showToast('Error saving content')
+                      } finally {
+                        setSavingContent(false)
+                      }
+                    }}
+                    disabled={savingContent}
+                    className="inline-flex items-center gap-1.5 px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-all"
+                  >
+                    {savingContent ? <RefreshCw size={14} className="animate-spin" /> : <Check size={14} />}
+                    {savingContent ? 'Saving Changes...' : 'Save All Website Changes'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Section Filters */}
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-200">
+                {[
+                  { id: 'all', label: 'All Sections' },
+                  { id: 'hero', label: 'Hero Banner' },
+                  { id: 'trust_strip', label: 'Trust Badges' },
+                  { id: 'homepage_sections', label: 'Section Headings' },
+                  { id: 'editorial', label: 'Editorial Living' },
+                  { id: 'promo_card', label: 'Promo Card' },
+                  { id: 'header', label: 'Header & Announcement' },
+                  { id: 'footer', label: 'Footer & Policies' }
+                ].map(sec => (
+                  <button
+                    key={sec.id}
+                    onClick={() => setActiveContentSection(sec.id)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                      activeContentSection === sec.id
+                        ? 'bg-slate-900 text-white shadow-xs'
+                        : 'text-slate-600 hover:bg-slate-100'
+                    }`}
+                  >
+                    {sec.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Content Form Editor Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {contentItems
+                  .filter(item => activeContentSection === 'all' || item.section === activeContentSection)
+                  .map((item, index) => (
+                    <div key={item.content_key} className="bg-white rounded-xl border border-slate-200 p-5 shadow-xs space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-pink-600 bg-pink-50 px-2 py-0.5 rounded">
+                          {item.section}
+                        </span>
+                        <span className="text-[11px] font-mono text-slate-400">
+                          {item.content_key}
+                        </span>
+                      </div>
+
+                      <div>
+                        <label className="block text-xs font-bold text-slate-800 mb-1">
+                          {item.label}
+                        </label>
+
+                        {item.input_type === 'image' ? (
+                          <div className="space-y-2">
+                            <div className="h-36 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden relative group">
+                              <img
+                                src={
+                                  item.content_value.startsWith('/')
+                                    ? item.content_value
+                                    : item.content_value.startsWith('data:')
+                                    ? item.content_value
+                                    : `https://images.unsplash.com/${item.content_value}?auto=format&fit=crop&w=800&q=80`
+                                }
+                                alt={item.label}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={item.content_value}
+                                onChange={(e) => {
+                                  const updated = [...contentItems]
+                                  const targetIdx = updated.findIndex(c => c.content_key === item.content_key)
+                                  if (targetIdx !== -1) {
+                                    updated[targetIdx].content_value = e.target.value
+                                    setContentItems(updated)
+                                  }
+                                }}
+                                placeholder="Image URL or Unsplash ID"
+                                className="flex-1 px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-mono focus:ring-2 focus:ring-pink-500 outline-none"
+                              />
+                              <label className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg cursor-pointer flex items-center gap-1">
+                                <Upload size={13} />
+                                <span>Upload</span>
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0]
+                                    if (file) {
+                                      const reader = new FileReader()
+                                      reader.onloadend = () => {
+                                        const base64 = reader.result as string
+                                        const updated = [...contentItems]
+                                        const targetIdx = updated.findIndex(c => c.content_key === item.content_key)
+                                        if (targetIdx !== -1) {
+                                          updated[targetIdx].content_value = base64
+                                          setContentItems(updated)
+                                        }
+                                      }
+                                      reader.readAsDataURL(file)
+                                    }
+                                  }}
+                                />
+                              </label>
+                            </div>
+                          </div>
+                        ) : item.input_type === 'textarea' ? (
+                          <textarea
+                            rows={3}
+                            value={item.content_value}
+                            onChange={(e) => {
+                              const updated = [...contentItems]
+                              const targetIdx = updated.findIndex(c => c.content_key === item.content_key)
+                              if (targetIdx !== -1) {
+                                updated[targetIdx].content_value = e.target.value
+                                setContentItems(updated)
+                              }
+                            }}
+                            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-pink-500 outline-none resize-y"
+                          />
+                        ) : (
+                          <input
+                            type="text"
+                            value={item.content_value}
+                            onChange={(e) => {
+                              const updated = [...contentItems]
+                              const targetIdx = updated.findIndex(c => c.content_key === item.content_key)
+                              if (targetIdx !== -1) {
+                                updated[targetIdx].content_value = e.target.value
+                                setContentItems(updated)
+                              }
+                            }}
+                            className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-pink-500 outline-none"
+                          />
+                        )}
+                      </div>
+
+                      <div className="pt-2 flex justify-end">
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            try {
+                              const res = await fetch('/api/content', {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ key: item.content_key, value: item.content_value })
+                              })
+                              const data = await res.json()
+                              if (data.success) {
+                                showToast(`Saved "${item.label}"`)
+                              } else {
+                                showToast('Save failed')
+                              }
+                            } catch {
+                              showToast('Error saving item')
+                            }
+                          }}
+                          className="px-3 py-1 bg-slate-900 hover:bg-slate-800 text-white rounded text-[11px] font-semibold transition-colors"
+                        >
+                          Save Field
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
+
           {/* TAB: SETTINGS */}
           {activeTab === 'settings' && (
             <div className="max-w-2xl bg-white rounded-xl border border-slate-200 shadow-sm p-6 space-y-6">
@@ -1733,6 +2087,132 @@ export default function AdminPage() {
                   className="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white text-xs font-semibold rounded-lg shadow-sm"
                 >
                   Create Coupon
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Add Category Modal */}
+      {showAddCategoryModal && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full shadow-2xl overflow-hidden border border-slate-100 animate-in fade-in zoom-in-95">
+            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+              <h3 className="font-bold text-slate-900 text-sm">Add New Category</h3>
+              <button 
+                onClick={() => setShowAddCategoryModal(false)}
+                className="text-slate-400 hover:text-slate-600 p-1"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <form
+              onSubmit={async (e) => {
+                e.preventDefault()
+                try {
+                  const res = await fetch('/api/categories', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(newCategory)
+                  })
+                  const data = await res.json()
+                  if (data.success) {
+                    setCategoriesList([...categoriesList, data.category])
+                    setShowAddCategoryModal(false)
+                    setNewCategory({ name: '', note: '', image: '', display_order: categoriesList.length + 1 })
+                    showToast(`Category "${data.category.name}" added successfully!`)
+                  } else {
+                    showToast(data.error || 'Failed to add category')
+                  }
+                } catch {
+                  showToast('Error creating category')
+                }
+              }}
+              className="p-6 space-y-4"
+            >
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Category Name *</label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Smart Lighting, Robotic Vacuums"
+                  value={newCategory.name}
+                  onChange={(e) => setNewCategory({ ...newCategory, name: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-pink-500 outline-none"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Subtitle / Note</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Intelligent home ambiance"
+                  value={newCategory.note}
+                  onChange={(e) => setNewCategory({ ...newCategory, note: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-pink-500 outline-none"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-xs font-semibold text-slate-700">Category Cover Photo</label>
+                <div className="flex items-center gap-3">
+                  <div className="w-14 h-14 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden flex items-center justify-center flex-shrink-0">
+                    {newCategory.image ? (
+                      <img
+                        src={newCategory.image.startsWith('/') || newCategory.image.startsWith('data:') ? newCategory.image : `https://images.unsplash.com/${newCategory.image}?auto=format&fit=crop&w=150&q=80`}
+                        alt="Preview"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <ImageIcon size={20} className="text-slate-400" />
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    <label className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg cursor-pointer">
+                      <Upload size={13} />
+                      <span>Upload Image</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0]
+                          if (file) {
+                            const reader = new FileReader()
+                            reader.onloadend = () => {
+                              setNewCategory({ ...newCategory, image: reader.result as string })
+                            }
+                            reader.readAsDataURL(file)
+                          }
+                        }}
+                      />
+                    </label>
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Or paste image URL / Unsplash ID"
+                  value={newCategory.image}
+                  onChange={(e) => setNewCategory({ ...newCategory, image: e.target.value })}
+                  className="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-pink-500 outline-none"
+                />
+              </div>
+
+              <div className="pt-4 border-t border-slate-100 flex items-center justify-end gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowAddCategoryModal(false)}
+                  className="px-4 py-2 border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-semibold rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white text-xs font-semibold rounded-lg shadow-sm"
+                >
+                  Save Category
                 </button>
               </div>
             </form>
