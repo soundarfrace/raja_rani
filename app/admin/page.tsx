@@ -152,13 +152,16 @@ export default function AdminPage() {
   // Fetch live dynamic data from MySQL
   const fetchAllData = async () => {
     try {
-      const [prodRes, ordRes, custRes, coupRes, contentRes, catRes] = await Promise.all([
+      const [prodRes, ordRes, custRes, coupRes, contentRes, catRes, shpRes, retRes, whRes] = await Promise.all([
         fetch('/api/products').then(r => r.json()).catch(() => null),
         fetch('/api/orders').then(r => r.json()).catch(() => null),
         fetch('/api/customers').then(r => r.json()).catch(() => null),
         fetch('/api/coupons').then(r => r.json()).catch(() => null),
         fetch('/api/content').then(r => r.json()).catch(() => null),
-        fetch('/api/categories').then(r => r.json()).catch(() => null)
+        fetch('/api/categories').then(r => r.json()).catch(() => null),
+        fetch('/api/shipments').then(r => r.json()).catch(() => null),
+        fetch('/api/returns').then(r => r.json()).catch(() => null),
+        fetch('/api/warehouses').then(r => r.json()).catch(() => null)
       ])
 
       if (prodRes?.success && Array.isArray(prodRes.products) && prodRes.products.length > 0) {
@@ -178,6 +181,12 @@ export default function AdminPage() {
       }
       if (catRes?.success && Array.isArray(catRes.categories)) {
         setCategoriesList(catRes.categories)
+      }
+      if (shpRes?.success && Array.isArray(shpRes.shipments)) {
+        setShipments(shpRes.shipments)
+      }
+      if (retRes?.success && Array.isArray(retRes.returns)) {
+        setReturns(retRes.returns)
       }
     } catch (err) {
       console.error('Error fetching dynamic MySQL data in admin:', err)
@@ -612,7 +621,7 @@ export default function AdminPage() {
             <h1 className="text-base md:text-lg font-bold text-slate-900 capitalize">
               {activeTab === 'inventory' ? 'Warehouse & Inventory Management' :
                activeTab === 'categories' ? 'Store Categories Management' :
-               activeTab === 'content' ? 'Website Content & Image CMS' :
+               activeTab === 'content' ? 'Control Management System' :
                activeTab === 'shipping' ? 'Order Shipments & Tracking' :
                activeTab === 'returns' ? 'Returns & Customer Refunds' :
                activeTab === 'coupons' ? 'Discount Coupons & Promotional Deals' :
