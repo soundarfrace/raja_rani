@@ -18,8 +18,16 @@ const categories = [
   { name: 'Water purifiers', note: 'A cleaner kind of clear', image: 'photo-1584622650111-993a426fbf0a' },
   { name: 'Microwaves', note: 'A fresh take on fast', image: 'photo-1585659722983-3a675dabf23d' },
 ]
-const photo = (id: string, width = 900) => id.startsWith('/') ? id : `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`
-const categoryPhoto = (image: string, width: number) => image.startsWith('/') ? image : photo(image, width)
+const photo = (id: string, width = 900) => {
+  if (!id) return '/rajarani-hero.jpg'
+  if (id.startsWith('/') || id.startsWith('data:') || id.startsWith('http')) return id
+  return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`
+}
+const categoryPhoto = (image: string, width: number) => {
+  if (!image) return '/rajarani-hero.jpg'
+  if (image.startsWith('/') || image.startsWith('data:') || image.startsWith('http')) return image
+  return photo(image, width)
+}
 const FALLBACK_PRODUCTS: Product[] = [
   ['Samsung', 'Bespoke 4-Door Flex Refrigerator', 'Refrigerators', 129990, 159990, '/products/fridge-samsung.jpg', 'Bestseller'],
   ['LG', 'AI Direct Drive Front Load Washer', 'Laundry', 54990, 69990, '/products/washer-lg.jpg', 'Top rated'],
